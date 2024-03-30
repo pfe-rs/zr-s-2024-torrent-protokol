@@ -14,12 +14,13 @@ class Device():
     def activate(self):
         self.active = True
 
-    def Ucitaj(self,ime_fajla):
+    def Ucitaj(self,ime_fajla,parts=3):
+        self.parts=parts
         f=open(ime_fajla,"r")
         self.ime_fajla=ime_fajla
         tekst=f.read()
         self.data=tekst
-        result=divide_string(self.data,3)
+        result=divide_string(self.data,self.parts)
         self.datapieces=[]
         nek=[]
         for bruh in result:
@@ -32,11 +33,13 @@ class Device():
     def Napravi_torrent(self,ime_fajla):
         lokacija=self.id
         ime = self.ime_fajla  
-        result=divide_string(self.data,3)
+        delovi=self.parts
+        result=divide_string(self.data,self.parts)
         nek=[]
         for str1 in result:
             nek.append(custom_hash(str1)) 
-        self.torrentfile=",".join(str(element)for element in nek)
+        self.torrentfile=str(delovi)+","
+        self.torrentfile=self.torrentfile+",".join(str(element)for element in nek)
         self.torrentfile=self.torrentfile+","+str(lokacija)+","+str(ime)
         f = open(f"{ime_fajla}.txt", "w")
         f.write(self.torrentfile)
@@ -53,17 +56,19 @@ class Device():
 
     def Skidaj_torrent(self,ime_fajla):
         self.podaci=[]
-        j=0
-        for i in range(3):
+        poruka=""
+        for i in range(self.parts):
            for devices in pratilac.available_devices.values():
                 bruh=devices.Uzmi_hash(ime_fajla)
-                print(bruh[i],devices.datahash[i])
-                print(devices.datapieces[i])
-                if int(bruh[i])==int(devices.datahash[i]):
-                    print("AAAAAAAAAA")
+                #print(bruh[i+1],devices.datahash[i])
+                #print(devices.datapieces[i])
+                if int(bruh[i+1])==int(devices.datahash[i]):
                     self.podaci.append(devices.datapieces[i])
                     break
-        print(self.podaci)
+
+        for str2 in self.podaci:
+            poruka=poruka+str2
+        print(poruka)
 
             
 
@@ -132,9 +137,9 @@ pratilac=Tracker()
 uredjaj=Device("bas radi",0)
 uredjaj2=Device("najjaci uredjaj",1)
 uredjaj3=Device("BAS JAK UREDAJ",2)
-uredjaj.Ucitaj("file.txt")
-uredjaj2.Ucitaj("file2.txt")
-uredjaj3.Ucitaj("file3.txt")
+uredjaj.Ucitaj("file.txt",3)
+uredjaj2.Ucitaj("file2.txt",3)
+uredjaj3.Ucitaj("file3.txt",3)
 uredjaj.Napravi_torrent("amogus")
 uredjaj2.Napravi_torrent("najjaci torrent")
 uredjaj3.Napravi_torrent("idegas")
