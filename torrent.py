@@ -16,9 +16,7 @@ class Device():
         self.active = True
 
     def Ucitaj(self,ime_fajla,parts=3):
-        self.datahash=[15]
-        for u in self.datahash:
-            u=0
+       
         self.parts=parts
         f=open(ime_fajla,"r")
         self.ime_fajla=ime_fajla
@@ -32,6 +30,9 @@ class Device():
             self.datapieces.append(bruh)
 
         self.datahash=nek
+        for u in range(14):
+            self.datahash.append("0")
+            self.datapieces.append("0")
         
         
 
@@ -49,6 +50,7 @@ class Device():
         f = open(f"{ime_fajla}.txt", "w")
         f.write(self.torrentfile)
         print(self.torrentfile)
+        print(result)
 
 
     def Uzmi_hash(self,ime_fajla):
@@ -62,16 +64,22 @@ class Device():
     def Skidaj_torrent(self,ime_fajla):
         self.podaci=[]
         poruka=""
-        for i in range(self.parts):
+        f=open(ime_fajla,"r")
+        tek=f.read()
+        delovi=tek.split(",")
+        for i in range(int(tek[0])):
            for devices in pratilac.available_devices.values():
                 bruh=[15]
+                for k in range(14):
+                    bruh.append("0")
                 bruh=devices.Uzmi_hash(ime_fajla)
                 #print(bruh[i+1],devices.datahash[i])
                 #print(devices.datapieces[i])
                 if int(bruh[i+1])==int(devices.datahash[i]):
                     self.podaci.append(devices.datapieces[i])
                     break
-
+                
+        print(self.podaci)
         for str2 in self.podaci:
             poruka=poruka+str2
         print(poruka)
@@ -143,9 +151,9 @@ pratilac=Tracker()
 uredjaj=Device("bas radi",0)
 uredjaj2=Device("najjaci uredjaj",1)
 uredjaj3=Device("BAS JAK UREDAJ",2)
-uredjaj.Ucitaj("file.txt",3)
-uredjaj2.Ucitaj("file2.txt",4)
-uredjaj3.Ucitaj("file3.txt",4)
+uredjaj.Ucitaj("file.txt",7)
+uredjaj2.Ucitaj("file2.txt",8)
+uredjaj3.Ucitaj("file3.txt",6)
 uredjaj.Napravi_torrent("amogus")
 uredjaj2.Napravi_torrent("najjaci torrent")
 uredjaj3.Napravi_torrent("idegas")
