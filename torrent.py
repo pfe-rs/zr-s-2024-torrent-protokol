@@ -1,5 +1,6 @@
 import threading
 
+
 class Device():
     
     def __init__(self,name, device_id):
@@ -15,6 +16,9 @@ class Device():
         self.active = True
 
     def Ucitaj(self,ime_fajla,parts=3):
+        self.datahash=[15]
+        for u in self.datahash:
+            u=0
         self.parts=parts
         f=open(ime_fajla,"r")
         self.ime_fajla=ime_fajla
@@ -26,6 +30,7 @@ class Device():
         for bruh in result:
             nek.append(custom_hash(bruh))
             self.datapieces.append(bruh)
+
         self.datahash=nek
         
         
@@ -59,6 +64,7 @@ class Device():
         poruka=""
         for i in range(self.parts):
            for devices in pratilac.available_devices.values():
+                bruh=[15]
                 bruh=devices.Uzmi_hash(ime_fajla)
                 #print(bruh[i+1],devices.datahash[i])
                 #print(devices.datapieces[i])
@@ -138,8 +144,8 @@ uredjaj=Device("bas radi",0)
 uredjaj2=Device("najjaci uredjaj",1)
 uredjaj3=Device("BAS JAK UREDAJ",2)
 uredjaj.Ucitaj("file.txt",3)
-uredjaj2.Ucitaj("file2.txt",3)
-uredjaj3.Ucitaj("file3.txt",3)
+uredjaj2.Ucitaj("file2.txt",4)
+uredjaj3.Ucitaj("file3.txt",4)
 uredjaj.Napravi_torrent("amogus")
 uredjaj2.Napravi_torrent("najjaci torrent")
 uredjaj3.Napravi_torrent("idegas")
